@@ -1,7 +1,25 @@
 name: Build code, run unit test, run SAST, SCA, DAST security scans for NodeJs App
 on: push
 
+
+
 jobs:
+
+  trufflehog_scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Run TruffleHog Scan
+      run: |
+        docker run gesellix/trufflehog --json https://github.com/dishaaa14/DevSecOps_nodejs_project.git > trufflehog_results.json
+    - name: Upload Trufflehog results
+      uses: actions/upload-artifact@v2
+      with:
+        name: trufflehog-results
+        path: trufflehog_results.json
   build:
     runs-on: ubuntu-latest
     name: Run unit tests and SAST scan on the source code 
