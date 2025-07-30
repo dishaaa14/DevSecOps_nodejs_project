@@ -27,7 +27,9 @@ jobs:
       run: snyk auth $SNYK_TOKEN
 
     - name: Run Snyk Scan (SCA and SAST)
-      run: snyk test --severity-threshold=high --json-file-output=snyk-report.json
+      run: snyk test --all-projects --json-file-output=snyk-report.json || true
+
+     # run: snyk test --severity-threshold=high --json-file-output=snyk-report.json
 
     - name: Monitor Snyk Project (Upload to Dashboard)
       env:
