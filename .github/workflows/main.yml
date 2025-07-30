@@ -29,6 +29,11 @@ jobs:
     - name: Run Snyk Scan (SCA and SAST)
       run: snyk test --severity-threshold=high --json-file-output=snyk-report.json
 
+    - name: Monitor Snyk Project (Upload to Dashboard)
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: snyk monitor --all-projects
+
     - name: Upload report artifact
       uses: actions/upload-artifact@v4
       with:
